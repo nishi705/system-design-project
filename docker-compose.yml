@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: apex-wallet-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: wallet_db
+    ports:
+      - "5432:5432"
+    volumes:
+      # Ensures ACID Durability: maps internal container data to a local folder
+      - postgres_wallet_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d wallet_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  redis-cache:
+    image: redis:alpine
+    container_name: apex-wallet-redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+volumes:
+  postgres_wallet_data:
+    driver: local
