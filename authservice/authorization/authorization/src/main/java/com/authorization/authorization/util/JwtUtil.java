@@ -4,11 +4,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+
+@Component
 public class JwtUtil {
-    private final String accessToken = "mysecretkeymysecretkeymysecretkeymysecretkey";
+    private final String SECRET = "mysecretkeymysecretkeymysecretkeymysecretkey";
 
     public String generateToken(String username, String role){
 
@@ -17,11 +20,11 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
-                .signWith(
-                        Keys.hmacShaKeyFor(
-                                accessToken.getBytes()
+                .signWith(//getting signing key here
+                        Keys.hmacShaKeyFor(//creates a cryptographic key object.
+                                SECRET.getBytes()
                         ),
-                        SignatureAlgorithm.HS256
+                        SignatureAlgorithm.HS256//HS256 is one of the most common JWT signing algorithms.
                 )
                 .compact();
 
@@ -31,7 +34,7 @@ public class JwtUtil {
         return Jwts.parserBuilder()
                 .setSigningKey(
                         Keys.hmacShaKeyFor(
-                                accessToken.getBytes()))
+                                SECRET.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

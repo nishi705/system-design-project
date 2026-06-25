@@ -1,6 +1,7 @@
 package com.authorization.authorization.controller;
 
 
+import com.authorization.authorization.dto.LoginRequest;
 import com.authorization.authorization.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +21,14 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public String login(@RequestBody String username,
-                        @RequestBody String password){
+    public String login(@RequestBody LoginRequest loginRequest){
 
-        if(username.equals("admin") && password.equals("admin123")){
-            return jwtUtil.generateToken(username, "ADMIN");
+        if(loginRequest.getUsername().equals("admin") && loginRequest.getPassword().equals("admin123")){
+            return jwtUtil.generateToken(loginRequest.getUsername(), "ADMIN");
         }
 
-        if(username.equals("user") && password.equals("user-123")){
-            return jwtUtil.generateToken(username, "USER");
+        if(loginRequest.getUsername().equals("user") && loginRequest.getPassword().equals("user-123")){
+            return jwtUtil.generateToken(loginRequest.getUsername(), "USER");
         }
 
         throw new RuntimeException("role not found");

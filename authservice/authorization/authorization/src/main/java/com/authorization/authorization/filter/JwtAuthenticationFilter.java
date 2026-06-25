@@ -11,13 +11,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
 
-
-public class JwtFilter extends OncePerRequestFilter {
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -31,8 +32,9 @@ public class JwtFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             Claims claims = jwtUtil.getClaims(token);
             String username = claims.getSubject();
-            String role = claims.get("role", String.class);
 
+
+            String role = claims.get("role", String.class);
             List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(
                     "ROLE_" + role
             ));
