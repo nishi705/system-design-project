@@ -1,0 +1,10 @@
+For OAuth2 token whose access_token is a JWT token
+
+JWT - json web token
+
+User,Resource server, 3rd party 
+
+
+Private Key: Stays safely hidden inside samples.auth0.com. Used to sign the ID token.
+
+Public Key: Available to the entire world via the provider's metadata (jwks.json). Used by your application to verify the ID token's signature.

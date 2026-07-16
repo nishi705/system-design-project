@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+
+spring:
+  security:
+    oauth2:
+
+      client:
+        registration:
+          keycloak:
+            client-id: nishi-spring-cloud-client
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - profile
+              - email
+
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/nishi-realm
+
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/nishi-realm
+
+## Production endpoint default
+#okta:
+#  api:
+#    base-url: https://dev-123456.okta.com
