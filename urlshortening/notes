@@ -1,0 +1,17 @@
+1.1. URL Shortener service
+
+
+2.Feature
+Ask question from the interviewer.
+a.How long a tiny url would be ? Will it ever expire ?
+b.Can a customer create a tiny url of his/her choice or will it always be service generated ?
+c.If user is allowed to create customer shortened links, what would be the maximum size of custom url ?
+d.How many url shortening request expected per month ?
+e.Do we expect service to provide metrics like most visited links ?
+
+3. System Design goals
+Functional requirement:
+Non-functional requirement:
+
+4.traffic system capacity:
+
