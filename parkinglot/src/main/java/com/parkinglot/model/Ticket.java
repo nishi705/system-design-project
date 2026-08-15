@@ -11,6 +11,8 @@ public class Ticket {
    private Instant startTime;
    private String message;
    private int spotNumber;
+    private int floorNumber;
+
 
     public int getTicketId() {
         return ticketId;
@@ -52,12 +54,15 @@ public class Ticket {
         this.spotNumber = spotNumber;
     }
 
+
+
     public static class TicketBuilder{
         private int ticketId;
         private Vehicle vehicle;
         private Instant startTime;
         private String message;
         private int spotNumber;
+        private int floorNumber;
 
         public TicketBuilder ticketId(int ticketId){
             this.ticketId = ticketId;
@@ -81,6 +86,10 @@ public class Ticket {
             return this;
         }
 
+        public TicketBuilder floorNumber(int floorNumber){
+            this.floorNumber = floorNumber;
+            return this;
+        }
         public Ticket build(){
             Ticket ticket = new Ticket();
             ticket.ticketId = this.ticketId;
@@ -88,6 +97,7 @@ public class Ticket {
             ticket.startTime = this.startTime;
             ticket.message = this.message;
             ticket.spotNumber = this.spotNumber;
+            ticket.floorNumber = this.floorNumber;
 
             return ticket;
         }

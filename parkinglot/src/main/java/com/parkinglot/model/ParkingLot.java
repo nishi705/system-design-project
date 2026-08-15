@@ -21,7 +21,7 @@ public class ParkingLot {
 
     public ParkingLot() {
         for (int i = 0; i < 2; i++) {
-            ParkingFloor floor = new ParkingFloor();
+            ParkingFloor floor = new ParkingFloor(i);
             for (int j = 0; j < 5; j++) {
                 floor.addParkingSpot(new ParkingSpot());
             }
@@ -42,7 +42,7 @@ public class ParkingLot {
         for (ParkingFloor floor : parkingFloorList) {
             ParkingSpot spot = floor.getParkingSpot(ticket.getSpotNumber());
             if (spot != null) {
-                floor.unparkVehicleFromSpot(ticket.getSpotNumber());
+                spot.unparkVehicle();
                 return;
             }
         }

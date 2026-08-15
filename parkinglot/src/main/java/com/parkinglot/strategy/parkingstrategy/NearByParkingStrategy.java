@@ -39,6 +39,7 @@ public class NearByParkingStrategy implements ParkingStrategy{
                             .vehicle(vehicle)
                             .startTime(Instant.now())
                             .spotNumber(spot.getSptNumber())
+                            .floorNumber(floor.getFloorNumber())
                             .message("parked successfully")
                             .build();
                    return ticket;

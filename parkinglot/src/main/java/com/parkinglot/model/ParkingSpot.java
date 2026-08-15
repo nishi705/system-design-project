@@ -1,6 +1,7 @@
 package com.parkinglot.model;
 
 
+import com.parkinglot.model.enums.SpotSize;
 import com.parkinglot.model.enums.VehicleType;
 
 public class ParkingSpot {
@@ -35,17 +36,36 @@ public class ParkingSpot {
         }
 
         this.vehicleType = vehicleType;
-
+        //this line is doing actually is: this line is parking the vehicle
+        //at vehicle when there were no any vehicle send to park at that time this.vehicleType = null
+        //but as soon as any vehicle send to park then it will be this.vehicleType = vehicleType(CAR);
         return true;
     }
 
     //isEmpty() should only check the state of the vehicle
     public boolean isEmpty() {
         return vehicleType == null;
+        //1.in very initial when spot is created at that time there were no vehicle int the
+        //spot therefor vehicleType == null is true;
+        //second time when any vehicle parked at that time vehicleType==null false and it
+        //return false;
     }
 
     public void unparkVehicle() {
 
         this.vehicleType = null;
+    }
+    public boolean canFitVehicle(VehicleType type){
+
+        return switch (type){
+            case "BIKE" ->
+                spotSize == SpotSize.SMALL || SpotSize.MEDIUM || SpotSize.LARGE;
+            case "CAR" ->
+                spotSize == SpotSize.MEDIUM || SpotSize.LARGE;
+            case "TRUCK" ->
+                spotSize == SpotSize.LARGE;
+            default -> false;
+        };
+
     }
 }
