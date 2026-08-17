@@ -1,0 +1,127 @@
+Redis Rate Limiter Summary
+
+Configuration
+MAX_REQUEST_SIZE = 5
+WINDOW_SIZE_SECONDS = 10
+
+Meaning:
+
+A client can make 5 requests.
+Within a 10-second window.
+Step 1: First Request
+Long currentRequest = redisTemplate.opsForValue().increment(key);
+
+Suppose the key is:
+
+rateLimitNishi
+
+Since the key doesn't exist:
+
+Redis:
+rateLimitNishi = 1
+
+currentRequest becomes:
+
+1
+
+Since it's the first request:
+
+if (currentRequest == 1) {
+    redisTemplate.expire(key, Duration.ofSeconds(10));
+}
+
+Redis stores:
+
+Key = rateLimitNishi
+Value = 1
+Expires after 10 seconds
+Step 2: Second Request
+rateLimitNishi = 2
+currentRequest = 2
+
+No new expiry is set.
+
+Redis is already counting down the existing 10-second timer.
+
+Step 3: More Requests
+3rd Request → currentRequest = 3
+4th Request → currentRequest = 4
+5th Request → currentRequest = 5
+
+All are allowed.
+
+Step 4: Sixth Request
+currentRequest = 6
+
+Since
+
+currentRequest > MAX_REQUEST_SIZE
+
+the request is blocked:
+
+return false;
+How does TTL decrease?
+
+Your Java code does NOT decrease the TTL.
+
+After this line:
+
+redisTemplate.expire(key, Duration.ofSeconds(10));
+
+Redis stores an expiration time (for example, "expire at 5:00:10 PM").
+
+Redis itself:
+
+Tracks the current time.
+Calculates the remaining TTL whenever needed.
+Automatically deletes the key when the expiration time is reached.
+
+Your application doesn't need to manage the countdown.
+
+Why set expire() only when currentRequest == 1?
+
+Because we want one fixed 10-second window.
+
+If we called expire() on every request:
+
+Request 1 → TTL = 10
+Request 2 → TTL = 10 again
+Request 3 → TTL = 10 again
+
+The timer would keep resetting, and the key might never expire while requests continue.
+
+Setting the expiry only on the first request creates a true fixed-window rate limiter.
+
+Complete Flow
+Client Request
+       │
+       ▼
+Redis INCR(key)
+       │
+       ▼
+currentRequest = 1?
+       │
+   Yes ─────────► Set TTL = 10 sec
+       │
+       ▼
+currentRequest > 5?
+       │
+   Yes ─────────► Block Request
+       │
+       No
+       ▼
+ Allow Request
+Key Takeaways
+increment(key) atomically increases the request count and returns the updated count.
+On the first request, the key is created and a 10-second expiry is set.
+Redis automatically manages the TTL; Java does not decrement it.
+Requests 1–5 are allowed.
+The 6th request within the same 10-second window is blocked.
+After 10 seconds, Redis deletes the key automatically, and the next request starts a fresh window.
+
+
+Other rate limiter:
+In-Memory Rate Limiter
+API Gateway Rate Limiter
+Resilience4j Rate Limiter
+Database-Based Rate Limiter

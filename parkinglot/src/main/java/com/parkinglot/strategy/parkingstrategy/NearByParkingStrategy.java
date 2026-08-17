@@ -14,7 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NearByParkingStrategy implements ParkingStrategy{
 
     private List<ParkingFloor> parkingFloorList;
-    private AtomicInteger ticketCounter = new AtomicInteger(1);
 
     public NearByParkingStrategy(List<ParkingFloor> parkingFloorList){
         this.parkingFloorList = parkingFloorList;
@@ -35,7 +34,6 @@ public class NearByParkingStrategy implements ParkingStrategy{
 
                 if(spot != null) {
                    Ticket ticket = new Ticket.TicketBuilder()
-                            .ticketId(ticketCounter.getAndIncrement())
                             .vehicle(vehicle)
                             .startTime(Instant.now())
                             .spotNumber(spot.getSptNumber())
@@ -46,9 +44,11 @@ public class NearByParkingStrategy implements ParkingStrategy{
                 }
         }
 
+
           return new Ticket.TicketBuilder()
                   .vehicle(vehicle)
                           .message("empty spot not available")
                                   .build();
     }
+
 }

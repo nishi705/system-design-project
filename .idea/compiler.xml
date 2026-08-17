@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.46/a5cfe99fdf320e84955ef653f2ce1bf789d11385/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="payment-tracker.test" />
+        <module name="payment-tracker.main" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="apex-wallet-system" options="-parameters" />
+      <module name="apex-wallet-system.main" options="-parameters" />
+      <module name="apex-wallet-system.test" options="-parameters" />
+      <module name="authorization" options="-parameters" />
+      <module name="authorization.main" options="-parameters" />
+      <module name="authorization.test" options="-parameters" />
+      <module name="payment-tracker" options="-parameters" />
+      <module name="payment-tracker.main" options="-parameters" />
+      <module name="payment-tracker.test" options="-parameters" />
+      <module name="stockpulse" options="-parameters" />
+      <module name="stockpulse.main" options="-parameters" />
+      <module name="stockpulse.test" options="-parameters" />
+      <module name="urlshortening" options="-parameters" />
+      <module name="urlshortening.main" options="-parameters" />
+      <module name="urlshortening.test" options="-parameters" />
+    </option>
+  </component>
+</project>

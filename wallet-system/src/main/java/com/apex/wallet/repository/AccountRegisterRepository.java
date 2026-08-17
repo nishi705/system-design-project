@@ -23,6 +23,19 @@ public interface AccountRegisterRepository extends JpaRepository<Account, Long> 
 
     Optional<Account> findByAccountNumber(String accountNumber);
 
+    /*
+    I would use optimistic locking when concurrent updates are relatively rare
+    because it avoids holding database locks and provides better concurrency.
+    If the same data is highly contended and conflicts are frequent, I would consider
+    pessimistic locking because it prevents concurrent modifications by acquiring a lock
+    upfront.
+
+    Pessimistic = Lock first, then work
+    Optimistic = Work first, check conflict while updating
+     */
+
+    //Someone else may modify this data, so I'll lock it before modifying.
+    //Optimistic lock: Conflicts are rare, so I'll allow concurrent access and check for conflicts when updating.
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT a FROM  Account a where a.accountNumber = :accountNumber")
     Optional<Account> findByAccountNumberForUpdate(@Param("accountNumber") String accountNumber);

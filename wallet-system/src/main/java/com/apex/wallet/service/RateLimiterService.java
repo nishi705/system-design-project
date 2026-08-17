@@ -13,6 +13,7 @@ import java.time.Duration;
 public class RateLimiterService {
     private final RedisTemplate<String, Object> redisTemplate;
 
+    //This is simply a prefix used to create Redis keys.
     private final String RATE_LIMIT_PREFIX = "rateLimit";
     private final int MAX_REQUEST_SIZE = 5;
     private final int WINDOW_SIZE_SECONDS = 10;
@@ -20,7 +21,6 @@ public class RateLimiterService {
     public boolean isAllowed(String clientId){
         String key = RATE_LIMIT_PREFIX + clientId;
 
-        //
         Long currentRequest = redisTemplate.opsForValue().increment(key);
 
         if(currentRequest == null){
@@ -31,6 +31,7 @@ public class RateLimiterService {
             //limit the window size
             redisTemplate.expire(key, Duration.ofSeconds(WINDOW_SIZE_SECONDS));
         }
+
 
         if(currentRequest > MAX_REQUEST_SIZE){
             log.warn("RATE LIMIT EXCEEDED: Client {} has sent {} requests", clientId, currentRequest);

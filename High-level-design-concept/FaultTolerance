@@ -1,0 +1,4 @@
+Resilence: this is system ability to handle and recover from the unexpected error, network drop or
+service crash without completely down.
+
+@Retry and @CircuitBreaker both comes under the resilence4j

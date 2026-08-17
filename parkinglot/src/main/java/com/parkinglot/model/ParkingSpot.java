@@ -7,10 +7,20 @@ import com.parkinglot.model.enums.VehicleType;
 public class ParkingSpot {
     private VehicleType vehicleType;
     private int sptNumber;
+    private SpotSize spotSize;
 
 
     public VehicleType getVehicleType() {
         return vehicleType;
+    }
+
+    public SpotSize getSpotSize() {
+        return spotSize;
+    }
+
+    public void setSpotSize(SpotSize spotSize) {
+
+        this.spotSize = spotSize;
     }
 
     public void setVehicleType(VehicleType vehicleType) {
@@ -25,8 +35,9 @@ public class ParkingSpot {
         this.sptNumber = sptNumber;
     }
 
-    public ParkingSpot(){
-
+    public ParkingSpot(int sptNumber,SpotSize spotSize){
+        this.sptNumber = sptNumber;
+         this.spotSize = spotSize;
     }
 
     //parkVehicle() should change the state.
@@ -58,11 +69,11 @@ public class ParkingSpot {
     public boolean canFitVehicle(VehicleType type){
 
         return switch (type){
-            case "BIKE" ->
-                spotSize == SpotSize.SMALL || SpotSize.MEDIUM || SpotSize.LARGE;
-            case "CAR" ->
-                spotSize == SpotSize.MEDIUM || SpotSize.LARGE;
-            case "TRUCK" ->
+            case BIKE ->
+                spotSize == SpotSize.SMALL || spotSize == SpotSize.MEDIUM || spotSize ==SpotSize.LARGE;
+            case CAR ->
+                spotSize == SpotSize.MEDIUM || spotSize == SpotSize.LARGE;
+            case TRUCK ->
                 spotSize == SpotSize.LARGE;
             default -> false;
         };

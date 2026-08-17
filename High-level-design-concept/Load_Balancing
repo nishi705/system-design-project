@@ -1,0 +1,6 @@
+I didn't implement the AWS Application Load Balancer myself.
+In our project, the infrastructure was managed by the DevOps team. My responsibility
+was to develop stateless Spring Boot microservices so they could be deployed as
+multiple instances behind a load balancer. I understand that the same JAR is deployed
+on multiple servers or containers, and the AWS ALB distributes incoming requests
+across healthy instances using target groups and health checks

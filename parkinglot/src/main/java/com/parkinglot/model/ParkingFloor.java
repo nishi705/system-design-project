@@ -1,19 +1,30 @@
 package com.parkinglot.model;
 
+import com.parkinglot.model.enums.SpotSize;
 import com.parkinglot.model.enums.VehicleType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ParkingFloor {
 
     List<ParkingSpot> parkingSpotList;
     private int floorNumber;
+    Map<SpotSize, Queue<ParkingSpot>> availableSpots;
 
     public ParkingFloor(int floorNumber) {
         parkingSpotList = new ArrayList<>();
         this.floorNumber = floorNumber;
+
+        availableSpots = new HashMap<>();
+        availableSpots.put(SpotSize.SMALL, new LinkedList<>());
+        availableSpots.put(SpotSize.MEDIUM, new LinkedList<>());
+        availableSpots.put(SpotSize.LARGE, new LinkedList<>());
     }
+
+    public void addAvailableSpots(ParkingSpot spot){
+        availableSpots.get(spot.getSpotSize()).offer(spot);
+    }
+
     public int getFloorNumber(){
         return  this.floorNumber;
     }

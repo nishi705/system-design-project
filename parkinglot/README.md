@@ -37,4 +37,26 @@ Flat rate (fixed hourly charge).
 Variable rate (based on vehicle type).
 9. Status Display:
 
-The system should display the status of the parking lot (e.g., available spots per level).
+The 
+system should display the status of the parking lot (e.g., available spots per level).
+
+
+Non-Functional Requirements:
+Scalability:
+The parking lot design should be scalable to support a large number of levels and spots.
+2. Extensibility:
+
+The system should be easily extensible to add:
+New vehicle types.
+Additional pricing or parking strategies.
+Advanced payment options.
+3. Maintainability:
+
+The code should follow object-oriented design principles for easier maintenance and readability.
+Dependency Injection should be used to support flexibility and testing.
+4. Performance:
+
+Spot allocation and ticket generation must be efficient to handle high traffic.
+5. Fault Tolerance:
+
+The system should handle edge cases like invalid tickets, unavailable spots, or payment failures gracefully.
