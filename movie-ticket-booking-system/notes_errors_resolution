@@ -1,0 +1,29 @@
+before implenting movieCache in memory when we triggered payload inside the movie table duplicate movie name has been saved
+and  Duplicate Rows (movie_id 5 & 6) were Appeared.
+
+In your current implementation, duplicate rows for "Dhurandhar" and "The Croods" were saved during the
+processing of the second theatre because of Spring Data JPA's SQL flush behavior inside loops:
+When Theatre 1 was processed, movieRepository.save(moviePayload) staged "The Croods" (movie_id: 2)
+in memory (L1 Cache), but did not flush it to PostgreSQL immediately.
+When Theatre 2 was processed, movieRepository.findByMovieName("The Croods") queried PostgreSQL directly.
+Because the previous save was not yet flushed/committed to the database, the query returned Optional.empty().
+Seeing an empty result, the logic triggered orElseGet(...) and created a duplicate row (movie_id: 6).
+
+
+
+Non-functional requiremnts:
+1.High availability
+2.Strong Consistency
+3.Low latency
+
+  How to achieve low latency?
+  Database indexing
+  Caching
+  Efficient queries
+
+4.Gracefully degradation
+5.Seat Locking for 10,000 Concurrent Users
+ ans: Seat locking must safely handle massive simultaneous requests
+
+stateless: application serever does not store any client session data between the
+incoming request.
